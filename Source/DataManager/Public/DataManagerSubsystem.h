@@ -14,8 +14,11 @@ public:
 	template<typename TRowStruct>
 	static const TRowStruct* GetData(const FGameplayTag& DataCategory, const FGameplayTag& DataRow)
 	{
-		const auto* DataManager = GEngine->GetEngineSubsystem<UDataManagerSubsystem>();
-		check(DataManager);
+		const auto* DataManager = GEngine ? GEngine->GetEngineSubsystem<UDataManagerSubsystem>() : nullptr;
+		if(!DataManager)
+		{
+			return nullptr;
+		}
 		return DataManager->Internal_GetData<TRowStruct>(DataCategory, DataRow);
 	}
 
